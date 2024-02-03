@@ -1,18 +1,28 @@
 import { Chess, Color, Move, PieceSymbol, Square } from "chess.js";
 
 /* helpers */
-type Board = ({ type: PieceSymbol, team: Color, uid: string } | null)[][];
+type Board = ({ type: PieceSymbol, team: Color, uid: string, value: number } | null)[][];
 
+const pieceValues: Record<PieceSymbol, number> = {
+    p: 1, // Pawn
+    r: 5, // Rook
+    n: 3, // Knight
+    b: 3, // Bishop
+    q: 9, // Queen
+    k: 1000, // King (arbitrarily high to represent its importance)
+  };
+  
 const getBoard = (chess: Chess, pieceUids: Record<string, string>): Board => {
     return chess
         .board()
-        .map(row => row.map(value => value !== null ?
+        .map(row => row.map(piece => piece !== null ?
             {
-                type: value.type,
-                team: value.color,
-                uid: pieceUids[value.square]
+                type: piece.type,
+                team: piece.color,
+                uid: pieceUids[piece.square],
+                value: pieceValues[piece.type] // Assign initial values
             } : null
-        ))
+        ));
 }
 
 export enum CompleteFlag {
@@ -166,34 +176,51 @@ export const chessReducer = (state: ChessState, action: ChessAction | InternalCh
             if (state.complete) {
                 break;
             }
-
+        
             if (state.redoStack) {
                 state.redoStack = [];
             }
-
+        
             try {
                 const move = action.chess.move({
                     from: action.from,
                     to: action.to,
                     promotion: action.promotion,
                 });
+        
+                if (!move) {
+                    break; // If the move is not valid, exit the case
+                }
+        
                 const tracked: MoveUID = {};
-                // needs to handle -> captures, castling
-                if (move.captured || move.flags.indexOf('e') >= 0) {
-                    // get stored uid
+        
+                // Check for piece value before finalizing the capture
+                if (move.captured) {
+                    const attackingPieceValue = state.board[move.to.charCodeAt(1) - '1'.charCodeAt(0)][move.to.charCodeAt(0) - 'a'.charCodeAt(0)]?.value ?? 0;
+                    const targetPieceValue = state.board[move.from.charCodeAt(1) - '1'.charCodeAt(0)][move.from.charCodeAt(0) - 'a'.charCodeAt(0)]?.value ?? 0;
+                    
+                    if (attackingPieceValue < targetPieceValue) {
+                        // If the attacking piece's value is less than the target's, revert the move and exit
+                        action.chess.undo();
+                        break; // Prevents further processing of this move
+                    }
+                }
+        
+                // Proceed with handling captures, castling, and normal moves as before
+                if (move.flags.includes('e') || move.captured) {
                     tracked.taken = state.pieceUids[move.to];
                     state.pieceUids[move.to] = state.pieceUids[move.from];
                     delete state.pieceUids[move.from];
-                } else if (move.flags.indexOf('k') >= 0) {
-                    // swap uids for both king and castle (kingside)
+                } else if (move.flags.includes('k')) {
+                    // Handle kingside castling
                     state.pieceUids[move.to] = state.pieceUids[move.from];
                     delete state.pieceUids[move.from];
                     const castleFrom = `h${move.from[1]}`;
                     const castleTo = `f${move.from[1]}`;
                     state.pieceUids[castleTo] = state.pieceUids[castleFrom];
                     delete state.pieceUids[castleFrom];
-                } else if (move.flags.indexOf('q') >= 0) {
-                    // swap uids for both king and castle (queenside)
+                } else if (move.flags.includes('q')) {
+                    // Handle queenside castling
                     state.pieceUids[move.to] = state.pieceUids[move.from];
                     delete state.pieceUids[move.from];
                     const castleFrom = `a${move.from[1]}`;
@@ -201,30 +228,17 @@ export const chessReducer = (state: ChessState, action: ChessAction | InternalCh
                     state.pieceUids[castleTo] = state.pieceUids[castleFrom];
                     delete state.pieceUids[castleFrom];
                 } else {
-                    // normal move, just move uid
+                    // Normal move
                     state.pieceUids[move.to] = state.pieceUids[move.from];
                     delete state.pieceUids[move.from];
                 }
-
-                state.pieceUids = {
-                    ...state.pieceUids,
-                };
-
-                state.pieceUidTracker = [
-                    ...state.pieceUidTracker,
-                    tracked,
-                ];
-
-                state.moves = [
-                    ...state.moves ?? [],
-                    move,
-                ];
-
+        
+                state.pieceUids = { ...state.pieceUids };
+                state.pieceUidTracker = [...state.pieceUidTracker, tracked];
+                state.moves = [...(state.moves ?? []), move];
+        
                 if (move.captured) {
-                    state.captured[move.color] = [
-                        ...state.captured[move.color],
-                        move.captured,
-                    ];
+                    state.captured[move.color] = [...state.captured[move.color], move.captured];
                 }
             } catch (e) {
                 break;
