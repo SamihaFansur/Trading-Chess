@@ -19,26 +19,58 @@ return baseValue + Math.random() * variation * 2 - variation;
 };
 
 
-let updateToggle = true; // Toggle to determine whether to update or reuse value
+
+
+let updateToggle = false; // Toggle to determine whether to update or reuse value
 const pieceValueCache: Record<string, number> = {}; // Cache to store piece values by their UID
+
+// Initialize piece type values for white pieces
+const whitePieceTypeValues: Record<PieceSymbol, number> = {
+    p: getRandomValue(pieceValues.p),
+    r: getRandomValue(pieceValues.r),
+    n: getRandomValue(pieceValues.n),
+    b: getRandomValue(pieceValues.b),
+    q: getRandomValue(pieceValues.q),
+    k: getRandomValue(pieceValues.k),
+};
+
+// Initialize piece type values for black pieces
+const blackPieceTypeValues: Record<PieceSymbol, number> = {
+    p: getRandomValue(pieceValues.p),
+    r: getRandomValue(pieceValues.r),
+    n: getRandomValue(pieceValues.n),
+    b: getRandomValue(pieceValues.b),
+    q: getRandomValue(pieceValues.q),
+    k: getRandomValue(pieceValues.k),
+};
+
+const whitePieceValueCache: Record<string, number> = {};
+const blackPieceValueCache: Record<string, number> = {};
+
 
 const getBoard = (chess: Chess, pieceUids: Record<string, string>): Board => {
     return chess.board().map(row => 
         row.map(piece => {
             if (piece !== null) {
-                // Construct the piece object with existing or default value
+                let pieceValue;
+                const uid = pieceUids[piece.square];
+                const cache = piece.color === 'w' ? whitePieceValueCache : blackPieceValueCache;
+                const typeValues = piece.color === 'w' ? whitePieceTypeValues : blackPieceTypeValues;
+
+                // Use cached value if available and updateToggle is off, else generate new value
+                if (!updateToggle && cache[uid] !== undefined) {
+                    pieceValue = cache[uid];
+                } else {
+                    pieceValue = getRandomValue(pieceValues[piece.type]);
+                    cache[uid] = pieceValue; // Cache the new value
+                }
+
                 const pieceObject = {
                     type: piece.type,
                     team: piece.color,
-                    uid: pieceUids[piece.square],
-                    value: pieceValueCache[pieceUids[piece.square]] || 0, // Use cached value or default
+                    uid: uid,
+                    value: pieceValue, // Use the value for the piece type
                 };
-
-                // If it's an update turn, update the value and cache it
-                if (updateToggle) {
-                    pieceObject.value = getRandomValue(pieceValues[piece.type]);
-                    pieceValueCache[pieceUids[piece.square]] = pieceObject.value;
-                }
 
                 return pieceObject;
             }
@@ -46,6 +78,7 @@ const getBoard = (chess: Chess, pieceUids: Record<string, string>): Board => {
         })
     );
 };
+
 
 
 export enum CompleteFlag {
@@ -262,7 +295,6 @@ export const chessReducer = (state: ChessState, action: ChessAction | InternalCh
                 }
                 // Refresh the board state to reflect any changes
                 state.board = getBoard(action.chess, state.pieceUids);
-                updateToggle = !updateToggle;
 
         
             } catch (e) {
@@ -443,11 +475,15 @@ export const chessReducer = (state: ChessState, action: ChessAction | InternalCh
             };
             state.check[state.turn] = action.chess.isCheck();
             state.complete = getCompleteFlag(action.chess, false);
+            updateToggle = !updateToggle;
+
             return {
                 ...state,
             };
+            
         }
     }
+    
     return state;
 };
 
