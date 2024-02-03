@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import TradingViewWidget from './components/TradingViewWidget';
 import { BrowserRouter, HashRouter, Route, Routes } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
@@ -13,8 +12,6 @@ import { ThemeProvider } from './providers/ThemeProvider';
 import { GlobalStyles } from './theme/global';
 import { ChessProvider } from './providers/ChessProvider';
 import { LobbyProvider } from './providers/LobbyProvider';
-import TradingViewWidget from './components/TradingViewWidget';
-
 
 const Container = styled.div`
   max-width: 1000px;
@@ -34,13 +31,12 @@ function App(): JSX.Element {
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   const onClickSettings = () => setSettingsOpen(v => !v);
-  
+
   return (
-          <TradingViewWidget index_name={'XAUUSD'} piece_name={'Your mum is a pawn'} />
-    // <SettingsProvider>
-    //   <ThemeProvider>
-    //     <Router>
-    //       <GlobalStyles />
+    <SettingsProvider>
+      <ThemeProvider>
+        <Router>
+          <GlobalStyles />
 
           <Container className='App'>
             <Header onClickSettings={onClickSettings} />
@@ -75,6 +71,6 @@ function App(): JSX.Element {
       </ThemeProvider>
     </SettingsProvider>
   );
-};
+}
 
 export default App;

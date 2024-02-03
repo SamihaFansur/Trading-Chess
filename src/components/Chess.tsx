@@ -103,68 +103,24 @@ const PieceImage = styled.img`
   // Add additional styling if needed
 `;
 
-const pieceOrder = {
-  k: 0, // King
-  q: 1, // Queen
-  r: 2, // Rook
-  b: 3, // Bishop
-  n: 4, // Knight
-  p: 5, // Pawn
-};
-
 export const LeftSidebar = () => {
   const { state } = useChessContext(); // Access the chess state
 
   // Filter for white pieces from the current board state and flatten the array
   const whitePieces = state.board.flat().filter(cell => cell && cell.team === 'w');
 
-  // Group pieces by their type and select one piece of each type
-  const uniqueWhitePieces = Object.values(whitePieces.reduce((acc, piece) => {
-      acc[piece.type] = piece; // Assign or overwrite the type key
-      return acc;
-  }, {}));
-
-  // Sort pieces by the defined order
-  const sortedWhitePieces = uniqueWhitePieces.sort((a, b) => pieceOrder[a.type] - pieceOrder[b.type]);
-
   return (
-      <Sidebar>
-          {sortedWhitePieces.map((piece, index) => (
-              <PieceContainer key={index}>
-                  <PieceImage src={pieceToFilename(piece.type, true)} alt={pieceToName(piece.type)} />
-                  <span>{piece.value.toFixed(2)}</span>
-              </PieceContainer>
-          ))}
-      </Sidebar>
+    <Sidebar>
+      {whitePieces.map((piece, index) => (
+        <PieceContainer key={index}>
+          <PieceImage src={pieceToFilename(piece.type, true)} alt={pieceToName(piece.type)} />
+          <span>{piece.value.toFixed(2)}</span> {/* Displaying the value of each individual piece */}
+        </PieceContainer>
+      ))}
+    </Sidebar>
   );
 };
 
-export const RightSidebar = () => {
-  const { state } = useChessContext(); // Access the chess state
-
-  // Filter for black pieces from the current board state and flatten the array
-  const blackPieces = state.board.flat().filter(cell => cell && cell.team === 'b');
-
-  // Group pieces by their type and select one piece of each type
-  const uniqueBlackPieces = Object.values(blackPieces.reduce((acc, piece) => {
-      acc[piece.type] = piece; // Assign or overwrite the type key
-      return acc;
-  }, {}));
-
-  // Sort pieces by the defined order
-  const sortedBlackPieces = uniqueBlackPieces.sort((a, b) => pieceOrder[a.type] - pieceOrder[b.type]);
-
-  return (
-      <RightSidebarContainer>
-          {sortedBlackPieces.map((piece, index) => (
-              <PieceContainer key={index}>
-                  <PieceImage src={pieceToFilename(piece.type, false)} alt={pieceToName(piece.type)} />
-                  <span>{piece.value.toFixed(2)}</span>
-              </PieceContainer>
-          ))}
-      </RightSidebarContainer>
-  );
-};
 
 
 export const DummySidebar = () => {
@@ -184,6 +140,23 @@ export const DummySidebar = () => {
   );
 };
 
+export const RightSidebar = () => {
+  const { state } = useChessContext(); // Access the chess state
+
+  // Filter for black pieces from the current board state and flatten the array
+  const blackPieces = state.board.flat().filter(cell => cell && cell.team === 'b');
+
+  return (
+    <RightSidebarContainer>
+      {blackPieces.map((piece, index) => (
+        <PieceContainer key={index}>
+          <PieceImage src={pieceToFilename(piece.type, false)} alt={pieceToName(piece.type)} />
+          <span>{piece.value.toFixed(2)}</span> {/* Displaying the value of each individual piece */}
+        </PieceContainer>
+      ))}
+    </RightSidebarContainer>
+  );
+};
 
 
 interface ChessProps {
