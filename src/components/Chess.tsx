@@ -12,6 +12,7 @@ import { SettingsContext } from '@/providers/SettingsProvider';
 import { LobbyContext } from '@/providers/LobbyProvider';
 import { Color, PieceSymbol, Square } from 'chess.js';
 import { pieceToFilename, pieceToName, pieceToString } from '@/game/piece';
+import FakeStockChart from './FakeStockChart'; // Adjust the path as necessary
 
 
 const ChessContainer = styled.div<{ fullscreen: boolean }>`
@@ -28,40 +29,33 @@ const GameContainer = styled.div<{ fullscreen: boolean }>`
   ${props => props.fullscreen && 'max-width: 1400px;'};
   display: grid;
   background: ${props => props.theme.colors.grid};
-  grid-template-columns: 200px auto 200px 250px  ; // Added sidebars
-  grid-template-rows: 60px auto 120px 200px; // Adjusted rows
+  grid-template-columns: 210px 50% 250px;
+  grid-template-rows: 150px 220px 50% 150px; // Include header height as the first row
   grid-template-areas:
-    "leftSidebar chess chess controls"
-    "leftSidebar chess chess players "
-    "leftSidebar chess chess moves"
-    "rightSidebar chess chess moves"; // Adjusted areas
-  
+    "header header header"
+    "leftSidebar chess controls"
+    "leftSidebar chess players"
+    "rightSidebar chess moves";
 
   @media (max-width: 1200px) {
-    grid-template-columns: 150px auto 200px 300px; // Slightly smaller sidebars for medium screens
+    // Adjustments for medium screens
   }
   
   @media (max-width: 800px) {
-    grid-template-columns: 100px auto 100px; // Sidebar, chessboard, and sidebar
-    grid-template-rows: 60px auto 120px;
-    grid-template-areas:
-      "leftSidebar chess"
-      "controls chess"
-      "players chess moves"; // Adjust for small screens
+    // Adjustments for small screens
   }
   
   @media (max-width: 600px) {
-    grid-template-columns: auto; // Only chessboard
-    grid-template-rows: 60px auto 60px 120px;
-    grid-template-areas:
-      "controls"
-      "chess"
-      "players"
-      "moves"; // Stack all components vertically for very small screens
+    // Adjustments for very small screens, consider responsive design changes
   }
-    
 `;
 
+const Header = styled.div`
+  grid-area: header;
+  display: flex;
+  justify-content: center; // Center items horizontally
+  min-height: 300px; // Increased minimum height
+`;
 
 const BoardContainer = styled.div`
   grid-area: chess;
@@ -73,25 +67,7 @@ const Sidebar = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: start;
-  padding: 10px;
-  background-color: #f9f9f9; // Example color, adjust as needed
-.
-`;
-
-const PieceContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin: 0px 0;
-  // More styling...
-`;
-
-const RightSidebarContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: start;
-  padding: 10px;
+  padding: 0px;
   background-color: #f9f9f9; // Example color, adjust as needed
   // More styling...
 `;
@@ -102,6 +78,74 @@ const PieceImage = styled.img`
   height: 30px; // Maintain aspect ratio
   // Add additional styling if needed
 `;
+
+const PieceContainer = styled.div`
+  display: grid;
+  grid-template-columns: 50px 50px 50px 80px; // Adjusted the width of the columns
+  align-items: center;
+  gap: 0px;
+  width: 100%;
+  // More styling...
+`;
+
+
+
+const StockDropdown = styled.select`
+  width: 100%;
+  // Add more styling as needed
+`;
+
+const StockValue = styled.div`
+  // Style for the stock value display
+`;
+
+const ChartContainer = styled.div`
+  width: 30%; // Adjusted to take full width of its parent container
+  height: 50%; // Adjusted for auto height to accommodate the charts' heights
+
+  display: flex;
+  justify-content: center; // Center the charts horizontally
+  align-items: flex-start; // Align charts at the top
+  flex-wrap: nowrap; // Prevent wrapping into the next row
+  gap: 0px; // Adjusted gap for spacing between charts
+  margin-top: 0px; // Space above the charts row
+`;
+
+const stockOptions = [
+  { code: 'JNJ', label: 'Johnson & Johnson (JNJ) - Healthcare' },
+  { code: 'MSFT', label: 'Microsoft Corporation (MSFT) - Technology' },
+  { code: 'PG', label: 'Procter & Gamble Co. (PG) - Consumer Goods' },
+  { code: 'TSLA', label: 'Tesla Inc. (TSLA) - Automotive/Electric Vehicles' },
+  { code: 'JPM', label: 'JPMorgan Chase & Co. (JPM) - Financial Services' },
+  { code: 'KO', label: 'Coca-Cola Company (KO) - Beverages' },
+  { code: 'XOM', label: 'Exxon Mobil Corporation (XOM) - Energy' },
+  { code: 'AMZN', label: 'Amazon.com Inc. (AMZN) - E-commerce/Technology' },
+  { code: 'DIS', label: 'Walt Disney Co. (DIS) - Entertainment' },
+  { code: 'GOOGL', label: 'Alphabet Inc. (GOOGL) - Internet/Search Engine' },
+  { code: 'SQ', label: 'Square, Inc. (SQ) - Financial Technology (FinTech)' },
+  { code: 'ZM', label: 'Zoom Video Communications, Inc. (ZM) - Communication Technology' },
+  { code: 'MRNA', label: 'Moderna, Inc. (MRNA) - Biotechnology' },
+  { code: 'ETSY', label: 'Etsy, Inc. (ETSY) - E-commerce/Crafts' },
+  { code: 'PLTR', label: 'Palantir Technologies Inc. (PLTR) - Data Analytics' },
+  { code: 'LMND', label: 'Lemonade, Inc. (LMND) - Insurtech' },
+];
+
+
+
+const Select = styled.select`
+  margin: 0 10px;
+  // Add additional styling if needed
+`;
+
+const StockDropdownComponent = ({ onChange }) => (
+  <StockDropdown onChange={onChange}>
+    {StockOptions.map((option) => (
+      <option value={option.value} key={option.value}>{option.label}</option>
+    ))}
+  </StockDropdown>
+);
+
+
 
 const pieceOrder = {
   k: 0, // King
@@ -132,6 +176,12 @@ export const LeftSidebar = () => {
           {sortedWhitePieces.map((piece, index) => (
               <PieceContainer key={index}>
                   <PieceImage src={pieceToFilename(piece.type, true)} alt={pieceToName(piece.type)} />
+                  <Select>
+                    {stockOptions.map(option => (
+                      <option key={option.code} value={option.code}>{option.label}</option>
+                    ))}
+                  </Select>
+                  <span>Stock Value</span>
                   <span>{piece.value.toFixed(2)}</span>
               </PieceContainer>
           ))}
@@ -155,17 +205,22 @@ export const RightSidebar = () => {
   const sortedBlackPieces = uniqueBlackPieces.sort((a, b) => pieceOrder[a.type] - pieceOrder[b.type]);
 
   return (
-      <RightSidebarContainer>
+      <Sidebar>
           {sortedBlackPieces.map((piece, index) => (
               <PieceContainer key={index}>
                   <PieceImage src={pieceToFilename(piece.type, false)} alt={pieceToName(piece.type)} />
+                  <Select>
+                    {stockOptions.map(option => (
+                      <option key={option.code} value={option.code}>{option.label}</option>
+                    ))}
+                  </Select>
+                  <span>Stock Value</span>
                   <span>{piece.value.toFixed(2)}</span>
               </PieceContainer>
           ))}
-      </RightSidebarContainer>
+      </Sidebar>
   );
 };
-
 
 export const DummySidebar = () => {
   return (
@@ -229,12 +284,22 @@ export const Chess: React.FC<ChessProps> = ({ type }) => {
   return (
     <Fullscreen isFullscreen={fullscreen}>
       <ChessContainer fullscreen={fullscreen}>
-        {
-          lobby && lobby.type !== 'ingame' && <p>connecting...</p>
-        }
         <GameContainer fullscreen={fullscreen}>
-        <DummySidebar /> {/* Use dummy */}
-
+          <Header>
+            {/* Place ChartContainer with charts inside the Header */}
+            <ChartContainer>
+              <FakeStockChart stockSymbol="MSFT" />
+              <FakeStockChart stockSymbol="AAPL" /> {/* Example for another stock */}
+              <FakeStockChart stockSymbol="MSFT" />
+              <FakeStockChart stockSymbol="AAPL" /> {/* Example for another stock */}
+              <FakeStockChart stockSymbol="MSFT" />
+              <FakeStockChart stockSymbol="AAPL" /> {/* Example for another stock */}
+              <FakeStockChart stockSymbol="MSFT" />
+              <FakeStockChart stockSymbol="AAPL" /> {/* Example for another stock */}
+              {/* Add more FakeStockChart components as needed */}
+            </ChartContainer>
+          </Header>
+          <RightSidebar /> {/* Existing RightSidebar */}
           <BoardContainer>
             <Chessboard />
           </BoardContainer>
@@ -244,9 +309,7 @@ export const Chess: React.FC<ChessProps> = ({ type }) => {
           />
           <Players />
           <Moves />
-        <RightSidebar /> {/* Use RightSidebar */}
-        <LeftSidebar /> {/* Use LeftSidebar */}
-
+          <LeftSidebar /> {/* Existing LeftSidebar */}
         </GameContainer>
       </ChessContainer>
     </Fullscreen>

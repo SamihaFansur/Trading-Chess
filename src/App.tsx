@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import TradingViewWidget from './components/TradingViewWidget';
 import { BrowserRouter, HashRouter, Route, Routes } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
@@ -36,11 +35,10 @@ function App(): JSX.Element {
   const onClickSettings = () => setSettingsOpen(v => !v);
   
   return (
-          <TradingViewWidget index_name={'XAUUSD'} piece_name={'Your mum is a pawn'} />
-    // <SettingsProvider>
-    //   <ThemeProvider>
-    //     <Router>
-    //       <GlobalStyles />
+    <SettingsProvider>
+      <ThemeProvider>
+        <Router>
+          <GlobalStyles />
 
           <Container className='App'>
             <Header onClickSettings={onClickSettings} />
@@ -65,6 +63,19 @@ function App(): JSX.Element {
                   <Chess type="local" />
                 </ChessProvider>
               } />
+<<<<<<< Updated upstream
+=======
+              <Route path="/lobby/:id" element={
+                <LobbyProvider>
+                  <Lobby />
+                </LobbyProvider>
+              } />
+              <Route path="/lobby" element={
+                <LobbyProvider>
+                  <Lobby />
+                </LobbyProvider>
+              } />
+>>>>>>> Stashed changes
             </Routes>
             <Footer />
             {
