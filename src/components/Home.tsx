@@ -7,7 +7,7 @@ const HomeContainer = styled.div`
   background-repeat: no-repeat;
   background-size: 100% auto;
   border: 2px solid black;
-  height: 70vh;
+  // height: 70vh;
   margin: 0; /* Add this line to reset margins */
 `;
 
@@ -22,6 +22,7 @@ const HomeHeader = styled.h1`
 const HomeParagraph = styled.p`
   text-align: center;
   color: ${props => props.theme.colors.text};
+  background-color:green;
 `;
 
 const HomeButtonContainer = styled.div`
@@ -59,13 +60,13 @@ export const Home: React.FC = () => {
   return (
     <HomeContainer>
       <HomeHeader>CREATE A GAME</HomeHeader>
+      <HomeParagraph>
+        Play chess against a local player or a bot.
+      </HomeParagraph>
       <HomeButtonContainer>
         <HomeButton to="/game">Local</HomeButton>
         <HomeButton to="/game/bot">Bot</HomeButton>
       </HomeButtonContainer>
-      <HomeParagraph>
-        Play chess against a local player or a bot.
-      </HomeParagraph>
     </HomeContainer>
   );
 };

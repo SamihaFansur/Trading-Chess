@@ -7,14 +7,13 @@ const FooterContainer = styled.div`
   flex-wrap: wrap;
   background-color: orange;
   justify-content: center;
-  margin: 0; /* Add this line to reset margins */
+  margin: 0;
 `;
 
 const FooterText = styled.p`
   font-weight: normal;
-  text-align: center; /* Center text within the container */
+  text-align: center;
   color: ${props => props.theme.colors.text};
-  /* Add flex: 1; to distribute multiple FooterText components */
 `;
 
 const FooterSpacer = styled.div`
