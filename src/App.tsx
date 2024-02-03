@@ -61,16 +61,6 @@ function App(): JSX.Element {
                   <Chess type="local" />
                 </ChessProvider>
               } />
-              <Route path="/lobby/:id" element={
-                <LobbyProvider>
-                  <Lobby />
-                </LobbyProvider>
-              } />
-              <Route path="/lobby" element={
-                <LobbyProvider>
-                  <Lobby />
-                </LobbyProvider>
-              } />
             </Routes>
             <Footer />
             {

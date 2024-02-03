@@ -5,18 +5,20 @@ const FooterContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  background-color: orange;
+  justify-content: center;
+  margin: 0; /* Add this line to reset margins */
 `;
 
 const FooterText = styled.p`
   font-weight: normal;
-  justify-self: center;
-  text-align: left;
+  text-align: center; /* Center text within the container */
   color: ${props => props.theme.colors.text};
+  /* Add flex: 1; to distribute multiple FooterText components */
 `;
 
 const FooterSpacer = styled.div`
   flex-grow: 1;
-  overflow: hidden;
 `;
 
 const FooterLink = styled.a`
@@ -27,11 +29,7 @@ export const Footer: React.FC = () => {
   return (
     <FooterContainer>
       <FooterText>
-        2023 zac
-      </FooterText>
-      <FooterSpacer />
-      <FooterText>
-        <FooterLink href='https://github.com/zaccnz/react-chess/'>source code</FooterLink>
+        2024 IcHack Team
       </FooterText>
     </FooterContainer>
   );

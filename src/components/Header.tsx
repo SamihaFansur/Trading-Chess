@@ -8,7 +8,13 @@ const HeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-content: center;
+  background-image: url('../public/headerBg.png');
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  padding: 0 30px;
+  margin: 0; /* Add this line to reset margins */
 `;
+
 
 const HeaderText = styled.h1`
   font-weight: normal;
@@ -41,11 +47,11 @@ export const Header: React.FC<Props> = ({ onClickSettings }) => {
   return (
     <HeaderContainer>
       <HeaderText>
-        <HeaderLink to="/">♘</HeaderLink> react-chess
+        <HeaderLink to="/">♘</HeaderLink> The Code Fathers
       </HeaderText>
       <HeaderSpacer />
       <HeaderButton onClick={onClickSettings}>
-        <FontAwesomeIcon icon={faCog} style={{ margin: 'auto' }} />
+        <FontAwesomeIcon icon={faCog} style={{ margin: 'auto', color: 'white' }} />
       </HeaderButton>
     </HeaderContainer>
   );

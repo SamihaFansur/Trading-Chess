@@ -148,14 +148,14 @@ export const Settings: React.FC<Props> = ({ onClickSettings }) => {
   return (
     <SettingsContainer>
       <SettingsRow>
-        <SettingsTitle>settings</SettingsTitle>
+        <SettingsTitle>Settings</SettingsTitle>
         <SettingsCloseButton onClick={onClickSettings}>
           <FontAwesomeIcon icon={faWindowClose} />
         </SettingsCloseButton>
       </SettingsRow>
 
       <SettingsRow>
-        <SettingsText>match system theme</SettingsText>
+        <SettingsText>Match system theme</SettingsText>
         <SettingsTextCheckbox
           type='checkbox'
           ref={systemThemeCheckbox}
@@ -164,7 +164,7 @@ export const Settings: React.FC<Props> = ({ onClickSettings }) => {
         />
       </SettingsRow>
       <SettingsRow>
-        <SettingsText>dark theme</SettingsText>
+        <SettingsText>Dark theme</SettingsText>
         <SettingsTextCheckbox
           type='checkbox'
           ref={darkThemeCheckbox}
@@ -174,7 +174,7 @@ export const Settings: React.FC<Props> = ({ onClickSettings }) => {
         />
       </SettingsRow>
       <SettingsRow>
-        <SettingsText>allow pause</SettingsText>
+        <SettingsText>Allow pause</SettingsText>
         <SettingsTextCheckbox
           type='checkbox'
           ref={allowPauseCheckbox}
@@ -183,7 +183,7 @@ export const Settings: React.FC<Props> = ({ onClickSettings }) => {
         />
       </SettingsRow>
       <SettingsRow>
-        <SettingsText>use chess notation</SettingsText>
+        <SettingsText>Use chess notation</SettingsText>
         <SettingsTextCheckbox
           type='checkbox'
           ref={useChessNotationCheckbox}
@@ -192,7 +192,7 @@ export const Settings: React.FC<Props> = ({ onClickSettings }) => {
         />
       </SettingsRow>
       <SettingsRow>
-        <SettingsText>game length (minutes per player)</SettingsText>
+        <SettingsText>Game length (minutes per player)</SettingsText>
         <SettingsTextInput
           type='number'
           value={length}
@@ -204,7 +204,7 @@ export const Settings: React.FC<Props> = ({ onClickSettings }) => {
       </SettingsRow>
       {lengthError !== '' && <SettingsError>{lengthError}</SettingsError>}
       <SettingsRow>
-        <SettingsText>default username</SettingsText>
+        <SettingsText>Default username</SettingsText>
         <SettingsNumberInput
           ref={defaultUsernameField}
           value={username}
@@ -213,7 +213,7 @@ export const Settings: React.FC<Props> = ({ onClickSettings }) => {
       </SettingsRow>
       {usernameError !== '' && <SettingsError>{usernameError}</SettingsError>}
       <SettingsInfo>
-        these settings are stored in your&nbsp;
+        These settings are stored in your&nbsp;
         <SettingsLink
           href='https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage'
         >
