@@ -4,14 +4,14 @@ export const LightTheme: DefaultTheme = {
   colors: {
     text: '#000',
     background: '#fff',
-    grid: '#eee',
+    grid: '#f9f9f9',
     primary: '#c4b5fd'
   },
   menus: {
     controls: {
       background: '#bbb',
       button: '#fff',
-      button_hover: '#eee',
+      button_hover: '#f9f9f9',
     },
     players: {
       background: '#ddd'
@@ -37,14 +37,14 @@ export const DarkTheme: DefaultTheme = {
   colors: {
     text: '#fff',
     background: '#0f172a',
-    grid: '#eee',
+    grid: '#f9f9f9',
     primary: '#c4b5fd'
   },
   menus: {
     controls: {
       background: '#1e293b',
       button: '#fff',
-      button_hover: '#eee',
+      button_hover: '#f9f9f9',
     },
     players: {
       background: '#334155'

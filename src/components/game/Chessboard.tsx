@@ -124,7 +124,7 @@ const PromotionChoice = styled.img`
   }
 
   &:active {
-    background: #eee;
+    background: #;
   }
 `;
 const GameOverText = styled.h2`
