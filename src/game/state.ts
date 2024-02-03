@@ -19,19 +19,33 @@ return baseValue + Math.random() * variation * 2 - variation;
 };
 
 
-const getBoard = (chess: Chess, pieceUids: Record<string, string>): Board => {
-    return chess
-        .board()
-        .map(row => row.map(piece => piece !== null ?
-            {
-                type: piece.type,
-                team: piece.color,
-                uid: pieceUids[piece.square],
-                value: getRandomValue(pieceValues[piece.type]) // Assign random values
-            } : null
-        ));
-};
+let updateToggle = true; // Toggle to determine whether to update or reuse value
+const pieceValueCache: Record<string, number> = {}; // Cache to store piece values by their UID
 
+const getBoard = (chess: Chess, pieceUids: Record<string, string>): Board => {
+    return chess.board().map(row => 
+        row.map(piece => {
+            if (piece !== null) {
+                // Construct the piece object with existing or default value
+                const pieceObject = {
+                    type: piece.type,
+                    team: piece.color,
+                    uid: pieceUids[piece.square],
+                    value: pieceValueCache[pieceUids[piece.square]] || 0, // Use cached value or default
+                };
+
+                // If it's an update turn, update the value and cache it
+                if (updateToggle) {
+                    pieceObject.value = getRandomValue(pieceValues[piece.type]);
+                    pieceValueCache[pieceUids[piece.square]] = pieceObject.value;
+                }
+
+                return pieceObject;
+            }
+            return null;
+        })
+    );
+};
 
 
 export enum CompleteFlag {
@@ -206,7 +220,7 @@ export const chessReducer = (state: ChessState, action: ChessAction | InternalCh
                 // Newly added logic for value-based move validation
                 const attackingPiece = state.board.flat().find(piece => piece?.uid === state.pieceUids[action.from]);
                 const defendingPiece = state.board.flat().find(piece => piece?.uid === state.pieceUids[action.to]);
-                if (attackingPiece && defendingPiece && attackingPiece.value > defendingPiece.value) {
+                if (attackingPiece && defendingPiece && attackingPiece.value < defendingPiece.value) {
                     console.error("Move invalid: Cannot capture a piece of lower value.");
                     action.chess.undo(); // Revert the move
                     break; // Exit the processing of this move
@@ -248,6 +262,8 @@ export const chessReducer = (state: ChessState, action: ChessAction | InternalCh
                 }
                 // Refresh the board state to reflect any changes
                 state.board = getBoard(action.chess, state.pieceUids);
+                updateToggle = !updateToggle;
+
         
             } catch (e) {
                 break;
