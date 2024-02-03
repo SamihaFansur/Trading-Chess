@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import TradingViewWidget from './components/TradingViewWidget';
 import { BrowserRouter, HashRouter, Route, Routes } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
@@ -33,53 +34,54 @@ function App(): JSX.Element {
   const onClickSettings = () => setSettingsOpen(v => !v);
 
   return (
-    <SettingsProvider>
-      <ThemeProvider>
-        <Router>
-          <GlobalStyles />
+          <TradingViewWidget index_name={'XAUUSD'} piece_name={'Your mum is a pawn'} />
+    // <SettingsProvider>
+    //   <ThemeProvider>
+    //     <Router>
+    //       <GlobalStyles />
 
-          <Container className='App'>
-            <Header onClickSettings={onClickSettings} />
-            <Routes>
-              <Route path="/" element={
-                <Home />
-              } />
-              <Route path="/game/bot" element={
-                <ChessProvider>
-                  <Chess type='bot' />
-                </ChessProvider>
-              } />
-              <Route path="/game/:id" element={
-                <LobbyProvider>
-                  <ChessProvider>
-                    <Chess type='online' />
-                  </ChessProvider>
-                </LobbyProvider>
-              } />
-              <Route path="/game" element={
-                <ChessProvider>
-                  <Chess type="local" />
-                </ChessProvider>
-              } />
-              <Route path="/lobby/:id" element={
-                <LobbyProvider>
-                  <Lobby />
-                </LobbyProvider>
-              } />
-              <Route path="/lobby" element={
-                <LobbyProvider>
-                  <Lobby />
-                </LobbyProvider>
-              } />
-            </Routes>
-            <Footer />
-            {
-              settingsOpen && <Settings onClickSettings={onClickSettings} />
-            }
-          </Container>
-        </Router>
-      </ThemeProvider>
-    </SettingsProvider>
+    //       <Container className='App'>
+    //         <Header onClickSettings={onClickSettings} />
+    //         <Routes>
+    //           <Route path="/" element={
+    //             <Home />
+    //           } />
+    //           <Route path="/game/bot" element={
+    //             <ChessProvider>
+    //               <Chess type='bot' />
+    //             </ChessProvider>
+    //           } />
+    //           <Route path="/game/:id" element={
+    //             <LobbyProvider>
+    //               <ChessProvider>
+    //                 <Chess type='online' />
+    //               </ChessProvider>
+    //             </LobbyProvider>
+    //           } />
+    //           <Route path="/game" element={
+    //             <ChessProvider>
+    //               <Chess type="local" />
+    //             </ChessProvider>
+    //           } />
+    //           <Route path="/lobby/:id" element={
+    //             <LobbyProvider>
+    //               <Lobby />
+    //             </LobbyProvider>
+    //           } />
+    //           <Route path="/lobby" element={
+    //             <LobbyProvider>
+    //               <Lobby />
+    //             </LobbyProvider>
+    //           } />
+    //         </Routes>
+    //         <Footer />
+    //         {
+    //           settingsOpen && <Settings onClickSettings={onClickSettings} />
+    //         }
+    //       </Container>
+    //     </Router>
+    //   </ThemeProvider>
+    // </SettingsProvider>
   );
 }
 

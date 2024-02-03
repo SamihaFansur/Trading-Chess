@@ -2,9 +2,10 @@ import React, { useEffect, useRef } from 'react';
 
 interface TradingViewWidgetProps {
   index_name: string;
+  piece_name: string;
 }
 
-const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ index_name }) => {
+const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ index_name, piece_name }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -25,13 +26,14 @@ const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ index_name }) => 
         allow_symbol_change: true,
         studies: ['STD;MACD'],
         container_id: containerRef.current?.id,
+       
       });
     };
     document.body.appendChild(script);
-  }, [index_name]);
+  }, [index_name, piece_name]);
 
   return (
-    <div id="tradingview_ae7da" ref={containerRef} />
+    <><div ref={containerRef}>{index_name} | {piece_name}</div><div id="tradingview_ae7da" style={{ "width": "400px" }} ref={containerRef} /></>
   );
 };
 
