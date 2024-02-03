@@ -1,0 +1,38 @@
+{
+  "name": "react-chess",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "deploy": "gh-pages -d dist"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.2.1",
+    "@fortawesome/free-brands-svg-icons": "^6.2.1",
+    "@fortawesome/free-solid-svg-icons": "^6.2.1",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "chess.js": "^1.0.0-beta.5",
+    "firebase": "^9.22.0",
+    "fscreen": "^1.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.4.3",
+    "styled-components": "^5.3.6",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/fscreen": "^1.0.1",
+    "@types/node": "^18.11.9",
+    "@types/react": "^18.0.24",
+    "@types/react-dom": "^18.0.8",
+    "@types/styled-components": "^5.1.26",
+    "@types/uuid": "^8.3.4",
+    "@vitejs/plugin-react": "^2.2.0",
+    "gh-pages": "^4.0.0",
+    "typescript": "^4.6.4",
+    "vite": "^3.2.3"
+  }
+}
