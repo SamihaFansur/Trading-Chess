@@ -124,6 +124,7 @@ export const ChessProvider: React.FC<ChessProviderProps> = (props) => {
       })
     }
   }, [lobby]);
+  
 
   const contextValue: ChessInterface = {
     state,

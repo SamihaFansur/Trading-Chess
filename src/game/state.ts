@@ -11,7 +11,14 @@ const pieceValues: Record<PieceSymbol, number> = {
     q: 9, // Queen
     k: 1000, // King (arbitrarily high to represent its importance)
   };
-  
+
+
+const getRandomValue = (baseValue: number): number => {
+const variation = baseValue;
+return baseValue + Math.random() * variation * 2 - variation;
+};
+
+
 const getBoard = (chess: Chess, pieceUids: Record<string, string>): Board => {
     return chess
         .board()
@@ -20,10 +27,12 @@ const getBoard = (chess: Chess, pieceUids: Record<string, string>): Board => {
                 type: piece.type,
                 team: piece.color,
                 uid: pieceUids[piece.square],
-                value: pieceValues[piece.type] // Assign initial values
+                value: getRandomValue(pieceValues[piece.type]) // Assign random values
             } : null
         ));
-}
+};
+
+
 
 export enum CompleteFlag {
     CHECKMATE = 'c',
@@ -194,18 +203,15 @@ export const chessReducer = (state: ChessState, action: ChessAction | InternalCh
         
                 const tracked: MoveUID = {};
         
-                // Check for piece value before finalizing the capture
-                if (move.captured) {
-                    const attackingPieceValue = state.board[move.to.charCodeAt(1) - '1'.charCodeAt(0)][move.to.charCodeAt(0) - 'a'.charCodeAt(0)]?.value ?? 0;
-                    const targetPieceValue = state.board[move.from.charCodeAt(1) - '1'.charCodeAt(0)][move.from.charCodeAt(0) - 'a'.charCodeAt(0)]?.value ?? 0;
-                    
-                    if (attackingPieceValue < targetPieceValue) {
-                        // If the attacking piece's value is less than the target's, revert the move and exit
-                        action.chess.undo();
-                        break; // Prevents further processing of this move
-                    }
+                // Newly added logic for value-based move validation
+                const attackingPiece = state.board.flat().find(piece => piece?.uid === state.pieceUids[action.from]);
+                const defendingPiece = state.board.flat().find(piece => piece?.uid === state.pieceUids[action.to]);
+                if (attackingPiece && defendingPiece && attackingPiece.value > defendingPiece.value) {
+                    console.error("Move invalid: Cannot capture a piece of lower value.");
+                    action.chess.undo(); // Revert the move
+                    break; // Exit the processing of this move
                 }
-        
+                
                 // Proceed with handling captures, castling, and normal moves as before
                 if (move.flags.includes('e') || move.captured) {
                     tracked.taken = state.pieceUids[move.to];
@@ -240,16 +246,20 @@ export const chessReducer = (state: ChessState, action: ChessAction | InternalCh
                 if (move.captured) {
                     state.captured[move.color] = [...state.captured[move.color], move.captured];
                 }
+                // Refresh the board state to reflect any changes
+                state.board = getBoard(action.chess, state.pieceUids);
+        
             } catch (e) {
                 break;
             }
-
+        
             return chessReducer(state, {
                 type: 'endMove',
                 chess: action.chess,
                 time: action.time,
             });
         }
+        
         case 'undo': {
             state = chessReducer(state, {
                 type: 'checkTimers',
@@ -352,7 +362,7 @@ export const chessReducer = (state: ChessState, action: ChessAction | InternalCh
             });
 
             state.redoStack = redo;
-
+            
             return state;
         }
         case 'pause': {
@@ -410,7 +420,7 @@ export const chessReducer = (state: ChessState, action: ChessAction | InternalCh
 
             // update state
             state.turn = action.chess.turn();
-            state.board = getBoard(action.chess, state.pieceUids);
+            // state.board = getBoard(action.chess, state.pieceUids);
             state.check = {
                 w: false,
                 b: false,
