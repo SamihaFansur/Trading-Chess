@@ -12,6 +12,8 @@ import { ThemeProvider } from './providers/ThemeProvider';
 import { GlobalStyles } from './theme/global';
 import { ChessProvider } from './providers/ChessProvider';
 import { LobbyProvider } from './providers/LobbyProvider';
+import TradingViewWidget from './components/TradingViewWidget';
+
 
 const Container = styled.div`
   max-width: 1000px;
@@ -31,7 +33,7 @@ function App(): JSX.Element {
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   const onClickSettings = () => setSettingsOpen(v => !v);
-
+  
   return (
     <SettingsProvider>
       <ThemeProvider>
@@ -81,6 +83,6 @@ function App(): JSX.Element {
       </ThemeProvider>
     </SettingsProvider>
   );
-}
+};
 
 export default App;
