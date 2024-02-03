@@ -203,6 +203,77 @@ class Board:
                 self.turn = "w"
                 self.reset_selected()
 
+    def select(self, col, row, color):
+        changed = False
+        prev = (-1, -1)
+        
+        # Find the currently selected piece, if any
+        for i in range(self.rows):
+            for j in range(self.cols):
+                if self.board[i][j] != 0 and self.board[i][j].selected:
+                    prev = (i, j)
+
+        # Handle deselection
+        if prev == (row, col):
+            self.reset_selected()
+            return False
+
+        if self.board[row][col] == 0:
+            # If the clicked square is empty and a piece was previously selected
+            if prev != (-1, -1):
+                moves = self.board[prev[0]][prev[1]].move_list
+                if (col, row) in moves:
+                    changed = self.move(prev, (row, col), color)
+        else:
+            # If the clicked square contains a piece
+            if prev == (-1, -1):
+                # No piece was previously selected, select the new piece
+                if self.board[row][col].color == color:
+                    self.board[row][col].selected = True
+            else:
+                # A piece was previously selected
+                if self.board[prev[0]][prev[1]].color != self.board[row][col].color:
+                    # The previously selected piece is different from the clicked piece (capture scenario)
+                    print(f"Attempting capture: {self.board[prev[0]][prev[1]]} (Value: {self.board[prev[0]][prev[1]].value}) -> {self.board[row][col]} (Value: {self.board[row][col].value})")
+                    
+                    if self.board[prev[0]][prev[1]].value >= self.board[row][col].value:
+                        moves = self.board[prev[0]][prev[1]].move_list
+                        if (col, row) in moves:
+                            changed = self.move(prev, (row, col), color)
+                    else:
+                        print(f"Cannot capture: {self.board[row][col]} has higher value than {self.board[prev[0]][prev[1]]}")
+                else:
+                    # The previously selected piece is the same as the clicked piece (selection change or castling)
+                    self.reset_selected()
+                    self.board[row][col].selected = True
+
+                    # Handle castling
+                    if self.board[prev[0]][prev[1]].king and not self.board[prev[0]][prev[1]].moved:
+                        # Identify the rook involved in castling
+                        if self.board[row][col].rook and not self.board[row][col].moved and col != prev[1]:
+                            castle = True
+                            direction = 1 if col > prev[1] else -1
+                            for j in range(prev[1] + direction, col, direction):
+                                if self.board[row][j] != 0:
+                                    castle = False
+                                    break
+
+                            if castle:
+                                new_king_col = (col + prev[1]) // 2  # Position king in the middle of the old rook and king positions
+                                changed = self.move(prev, (row, new_king_col), color)  # Move the king
+                                changed = self.move((row, col), (row, prev[1]), color)  # Move the rook
+                                if not changed:
+                                    self.board[row][col].selected = True
+
+        if changed:
+            # Change turn and reset selection if a move was made
+            self.turn = "b" if self.turn == "w" else "w"
+            self.reset_selected()
+            self.last = [prev, (row, col)]
+
+        return changed
+
+
     def reset_selected(self):
         for i in range(self.rows):
             for j in range(self.cols):
