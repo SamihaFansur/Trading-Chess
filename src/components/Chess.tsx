@@ -103,22 +103,24 @@ const PieceImage = styled.img`
   // Add additional styling if needed
 `;
 
-
 export const LeftSidebar = () => {
-  const whitePieces: PieceSymbol[] = ['p', 'r', 'n', 'b', 'q', 'k']; // Example piece symbols
+  const { state } = useChessContext(); // Access the chess state
+
+  // Filter for white pieces from the current board state and flatten the array
+  const whitePieces = state.board.flat().filter(cell => cell && cell.team === 'w');
 
   return (
     <Sidebar>
-      {whitePieces.map((pieceSymbol, index) => (
+      {whitePieces.map((piece, index) => (
         <PieceContainer key={index}>
-          <PieceImage src={pieceToFilename(pieceSymbol, true)} alt={pieceToName(pieceSymbol)} />
-          {/* Placeholder for future piece value */}
-          <span>Value</span>
+          <PieceImage src={pieceToFilename(piece.type, true)} alt={pieceToName(piece.type)} />
+          <span>{piece.value.toFixed(2)}</span> {/* Displaying the value of each individual piece */}
         </PieceContainer>
       ))}
     </Sidebar>
   );
 };
+
 
 
 export const DummySidebar = () => {
@@ -139,21 +141,27 @@ export const DummySidebar = () => {
 };
 
 export const RightSidebar = () => {
-  const blackPieces: PieceSymbol[] = ['p', 'r', 'n', 'b', 'q', 'k']; // Example piece symbols
+  const { state } = useChessContext(); // Access the chess state
+
+  // Filter for black pieces from the current board state and flatten the array
+  const blackPieces = state.board.flat().filter(cell => cell && cell.team === 'b');
 
   return (
     <RightSidebarContainer>
-      {blackPieces.map((pieceSymbol, index) => (
+      {blackPieces.map((piece, index) => (
         <PieceContainer key={index}>
-          <PieceImage src={pieceToFilename(pieceSymbol, false)} alt={pieceToName(pieceSymbol)} />
-          {/* Placeholder for future piece value */}
-          <span>Value</span>
+          <PieceImage src={pieceToFilename(piece.type, false)} alt={pieceToName(piece.type)} />
+          <span>{piece.value.toFixed(2)}</span> {/* Displaying the value of each individual piece */}
         </PieceContainer>
       ))}
     </RightSidebarContainer>
   );
 };
 
+
+interface ChessProps {
+  type: 'local' | 'bot' | 'online'
+}
 
 
 export const Chess: React.FC<ChessProps> = ({ type }) => {

@@ -15,16 +15,18 @@ const TradingViewWidget: React.FC<TradingViewWidgetProps> = ({ index_name, piece
     script.onload = () => {
       new TradingView.widget({
         autosize: true,
-        symbol: index_name,
-        interval: 'D',
-        timezone: 'Etc/UTC',
-        theme: 'light',
-        style: '1',
-        locale: 'en',
+        symbol: "NASDAQ:AAPL",
+        interval: "D",
+        timezone: "Etc/UTC",
+        theme: "dark",
+        style: "1",
+        locale: "en",
         enable_publishing: false,
-        hide_side_toolbar: false,
-        allow_symbol_change: true,
-        studies: ['STD;MACD'],
+        hide_legend: true,
+        withdateranges: true,
+        save_image: false,
+        hide_volume: true,
+        //studies: ['STD;MACD'],
         container_id: containerRef.current?.id,
        
       });
