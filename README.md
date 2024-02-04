@@ -1,64 +1,83 @@
-# react-chess
+# Trading Chess
 
-![Screenshot of the game](screenshots/first_ui.png)  
+Trading Chess is an innovative chess variant that seamlessly combines real-time stock data with traditional chess gameplay. In this unique twist on the classic game, each chess piece is associated with a specific stock, and its capturing abilities are determined by the stock's current value. This project's primary goal is to provide users with an engaging and familiar platform to learn about finance and investment strategies.
 
-Play online at [zaccnz.github.io/react-chess/](https://zaccnz.github.io/react-chess/)  
+## Features
 
-### Todo
+- **Real-time Stock Integration**: Every chess piece is connected to a real stock, and their gameplay impact fluctuates dynamically with the stock's value.
+- **Stock Value Dependency**: A chess piece can only capture another piece if its associated stock's value is higher.
+- **Responsive Design**: The user interface gracefully adapts to various screen sizes, ensuring a consistent gaming experience across all devices.
+- **Custom Styled Components**: The UI is crafted using styled-components, offering a modern and sleek appearance.
+- **Tutorial Mode**: A comprehensive guide is available to teach users how to play, combining chess strategies with financial insights.
+- **Multi-platform Support**: Supports local, bot, and online gameplay modes.
 
-- [x] Gameplay
-  - [x] Get basic chess gameplay running
-  - [x] Game timer
-  - [x] Reset board, undo button, etc (QoL)
-  - [x] Ensure game is responsive and can be played on phone with touch
-- [x] Website design
-  - [x] Complete layout
-  - [x] Complete light and dark themes
-  - [x] Cleanup UI
-  - [x] Smooth piece movement (including undo & redo actions)
-- [ ] Chess AI (human vs bot match)
-  - [x] Minmax
-  - [x] Alpha-beta pruning
-  - [ ] Move ordering
-  - [ ] Improve evaluations
-  - [x] Move into worker
-  - [ ] Optimizations
-- [x] Multiplayer (human vs human)
-  - [x] Allow players to create and join lobbies
-  - [x] Synchronize gameplay between clients
-- [x] Host project online
+## Installation
 
-### Libraries used
-This project is built with  
-- React
-- Vite
-- [chess.js](https://github.com/jhlywa/chess.js)
-- TypeScript
-- Styled Components
-- FontAwesome
-- React Router Dom
-- fscreen
-- UUID
+1. **Clone the repository:**
 
-Chess pieces from [OpenGameArt](https://opengameart.org/content/chess-pieces-and-board-squares).  
-Bot logic inspired by [freeCodeCamp Step-by-step Chess AI](https://www.freecodecamp.org/news/simple-chess-ai-step-by-step-1d55a9266977/).  
+    ```
+    git clone https://github.com/euangoodbrand/ICHack_Chess.git
+    ```
 
+2. **Navigate to the project directory:**
 
-### Building
+    ```
+    cd trading-chess
+    ```
 
-To run this project locally  
-```
-git clone https://github.com/zaccnz/react-chess.git
-cd react-chess
-npm install
-npm run dev
-```
-  
-You can also build this project...  
-```
-npm run build
-```
-then host it on GitHub pages  
-```
-npm run deploy
-```
+3. **Install the dependencies:**
+
+    ```
+    npm install
+    ```
+3. **Run Application**
+
+   ```
+    npm run dev
+    ``` 
+
+**To start playing Trading Chess:**
+
+- Open your web browser and go to [http://localhost:3000](http://localhost:3000) to enjoy playing Trading Chess!
+
+**Components:**
+
+- **Chessboard**: The central component where the chess game takes place.
+- **Controls**: UI elements that allow users to interact with the game, including undo/redo moves, toggle fullscreen, and quit the game.
+- **Players**: Displays players' information and status.
+- **Moves**: A log of all the moves made during the game.
+- **FakeStockChart**: A component that simulates stock price charts for the stocks associated with chess pieces.
+
+**Technology Stack:**
+
+- **React**: Used for building the user interface.
+- **Styled-Components**: Employed for styling the components.
+- **React Router**: Manages navigation within the application.
+- **Chess.js**: Handles chess game logic and validations.
+- **Firebase** (if applicable): Utilized for real-time data synchronization in online multiplayer mode.
+
+**Contributing:**
+
+Contributions are welcome! If you have any suggestions to improve this project, please follow these steps:
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+Don't forget to give the project a star! Thanks again for your support!
+
+**License:**
+
+Distributed under the **MIT License**. See [LICENSE](LICENSE) for more information.
+
+**Contact:**
+
+- **Your Name** - [@your_twitter](https://twitter.com/your_twitter)
+- **Email**: email@example.com
+
+**Project Link:** [https://github.com/euangoodbrand/ICHack_Chess](https://github.com/euangoodbrand/ICHack_Chess)
+
+Note: Be sure to replace placeholders like Your Name, @your_twitter, and email@example.com with your actual project details.
+
