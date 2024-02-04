@@ -9,10 +9,10 @@ const sentimentColors =
     "Bullish" : "#006400"}
 ;
 const companies = [
-    { name: 'APPL', description: 'Apple Inc. is an American multinational technology company.', sentiment: "Bullish"},
-    { name: 'TSLA', description: 'Tesla, Inc. is an American electric vehicle and clean energy company.', sentiment: "Bearish"},
-    { name: 'MSFT', description: 'Microsoft Corporation is an American multinational technology company.', sentiment: "Neutral"},
-    { name: 'PG', description: 'Procter & Gamble Co. is an American multinational consumer goods corporation.', sentiment: "Somewhat-Bullish"},
+    { name: 'APPL', description: 'AAPL represents the stock symbol for Apple Inc., a multinational technology company headquartered in Cupertino, California. They design, manufacture, and sell a wide range of consumer electronics, software, and online services.', sentiment: "Bullish"},
+    { name: 'TSLA', description: 'TSLA represents the stock symbol for Tesla, Inc., an American multinational automotive and clean energy company.', sentiment: "Bearish"},
+    { name: 'MSFT', description: 'MSFT represents the stock symbol for Microsoft Corporation, a multinational technology company headquartered in Redmond, Washington. ', sentiment: "Neutral"},
+    { name: 'PG', description: 'PG stands for Parental Guidance Suggested. It\'s a rating used in the United States by the Motion Picture Association of America (MPAA) to indicate that some material may not be suitable for children. This means that parents are advised to consider whether the content might be upsetting or inappropriate for their young children.', sentiment: "Somewhat-Bullish"},
     { name: 'AMZN', description: 'Amazon.com, Inc. is an American multinational technology company.', sentiment: "Somewhat-Bearish"},
   ];
 
@@ -56,7 +56,7 @@ const TextComponent: React.FC = () => {
         </Button>
         {selectedCompany === company.name && (
           <div style={{ marginTop: '10px', flex: '1', minHeight: '50px' }}>
-            <p>Sentiment: {company.sentiment}</p>
+            <p><b>Sentiment</b>: {company.sentiment}</p>
             <p>{company.description}</p>
           </div>
         )}
