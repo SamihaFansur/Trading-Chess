@@ -8,7 +8,7 @@ const HeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-content: center;
-  background-image: url('../public/headerBg.png');
+  background-color:#8FAADC;
   background-repeat: no-repeat;
   background-size: 100% auto;
   padding: 0 30px;
@@ -17,9 +17,11 @@ const HeaderContainer = styled.div`
 
 
 const HeaderText = styled.h1`
-  font-weight: normal;
   color: ${props => props.theme.colors.text};
+  font-family: 'Courier New', monospace; // Set the font family to Courier New
+  font-weight: bold; // Make the font weight bold
 `;
+
 
 const HeaderSpacer = styled.div`
   flex-grow: 1;

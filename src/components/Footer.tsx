@@ -5,7 +5,7 @@ const FooterContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  background-color: orange;
+  background-color:#8FAADC;
   justify-content: center;
   margin: 0;
 `;
