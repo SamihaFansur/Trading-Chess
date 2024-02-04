@@ -262,7 +262,7 @@ export const chessReducer = (state: ChessState, action: ChessAction | InternalCh
     switch (action.type) {
         case 'move': {
             if (!CanStart()){
-                alert("dupcia it means ass in polish")
+                alert("Select all your assets first before making a move!")
                 return state;
             }
             state = chessReducer(state, {

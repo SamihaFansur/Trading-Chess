@@ -11,6 +11,7 @@ import { ThemeProvider } from './providers/ThemeProvider';
 import { GlobalStyles } from './theme/global';
 import { ChessProvider } from './providers/ChessProvider';
 import { LobbyProvider } from './providers/LobbyProvider';
+import TextComponent from './components/TextComponent';
 
 const Container = styled.div`
   max-width: 1300px;
@@ -58,9 +59,12 @@ function App(): JSX.Element {
                 </ChessProvider>
               } />
               <Route path="/game" element={
+                <div>
                 <ChessProvider>
                   <Chess type="local" />
                 </ChessProvider>
+                <TextComponent />
+              </div>
               } />
             </Routes>
             <Footer />
