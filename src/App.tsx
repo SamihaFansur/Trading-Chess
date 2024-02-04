@@ -13,15 +13,25 @@ import { ChessProvider } from './providers/ChessProvider';
 import { LobbyProvider } from './providers/LobbyProvider';
 
 const Container = styled.div`
-  max-width: 1000px;
+  max-width: 1300px;
   margin: 0 auto;
   padding: 0 10px;
   display: flex;
   flex-direction: column;
-  min-height: 100%;
-  justify-content: space-between;
+
+  // min-height: 100vh; /* Full viewport height */
+  width: 100%;
+  justify-content: flex-start;
+  
   background: ${props => props.theme.colors.background};
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  
+  transform: translate(-50%, -50%);
 `;
+
+
 
 const useHashRouter: boolean = true;
 const Router = useHashRouter ? HashRouter : BrowserRouter;
@@ -36,7 +46,6 @@ function App(): JSX.Element {
       <ThemeProvider>
         <Router>
           <GlobalStyles />
-
           <Container className='App'>
             <Header onClickSettings={onClickSettings} />
             <Routes>
@@ -47,13 +56,6 @@ function App(): JSX.Element {
                 <ChessProvider>
                   <Chess type='bot' />
                 </ChessProvider>
-              } />
-              <Route path="/game/:id" element={
-                <LobbyProvider>
-                  <ChessProvider>
-                    <Chess type='online' />
-                  </ChessProvider>
-                </LobbyProvider>
               } />
               <Route path="/game" element={
                 <ChessProvider>
