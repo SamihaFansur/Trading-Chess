@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { Chessboard } from './game/Chessboard';
@@ -13,7 +13,15 @@ import { LobbyContext } from '@/providers/LobbyProvider';
 import { Color, PieceSymbol, Square } from 'chess.js';
 import { pieceToFilename, pieceToName, pieceToString } from '@/game/piece';
 import { FakeStockChart, FakeStockChartProps } from './FakeStockChart'; // Adjust the path as necessary
+import { HasMoved } from '../game/state'
+import { count } from 'console';
+import { string } from 'prop-types';
 
+let canStart = false;
+
+export const CanStart = (): boolean => {
+  return canStart;
+};
 
 const ChessContainer = styled.div<{ fullscreen: boolean }>`
   ${props => props.fullscreen && `display: flex; 
@@ -168,7 +176,7 @@ export const LeftSidebar = () => {
                   <PieceImage src={pieceToFilename(piece.type, true)} alt={pieceToName(piece.type)} />
                   <Select>
                     {stockOptions.map(option => (
-                      <option key={option.code} value={option.code}>{option.label}</option>
+                      <option disabled={HasMoved()} key={option.code} value={option.code}>{option.label}</option>
                     ))}
                   </Select>
                   <span>Stock Value</span>
@@ -190,18 +198,30 @@ export const RightSidebar = () => {
       acc[piece.type] = piece; // Assign or overwrite the type key
       return acc;
   }, {}));
+ // Sort pieces by the defined order
+ const sortedBlackPieces = uniqueBlackPieces.sort((a, b) => pieceOrder[a.type] - pieceOrder[b.type]);
 
-  // Sort pieces by the defined order
-  const sortedBlackPieces = uniqueBlackPieces.sort((a, b) => pieceOrder[a.type] - pieceOrder[b.type]);
+  // Group pieces by their type and select one piece of each type
+  let countSelected = "";
 
+  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const selectedOption = event.target.value;
+    countSelected += selectedOption;
+    if (countSelected.includes("-") || countSelected.length < 1) {
+      canStart = false;
+    };
+    canStart = true;
+    console.log("Selected option: ", selectedOption);
+    // You can add more code here to handle the selected option
+  };
   return (
       <Sidebar>
           {sortedBlackPieces.map((piece, index) => (
               <PieceContainer key={index}>
                   <PieceImage src={pieceToFilename(piece.type, false)} alt={pieceToName(piece.type)} />
-                  <Select>
+                  <Select onChange={handleSelectChange}>
                     {stockOptions.map(option => (
-                      <option key={option.code} value={option.code}>{option.label}</option>
+                      <option disabled={HasMoved()} key={option.code} value={option.code}>{option.label}</option>
                     ))}
                   </Select>
                   <span>Stock Value</span>

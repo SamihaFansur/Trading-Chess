@@ -1,5 +1,6 @@
 import { Chess, Color, Move, PieceSymbol, Square } from "chess.js";
 import { stockDatasets } from "@/components/FakeStockChart";
+import { CanStart } from "@/components/Chess";
 
 /* helpers */
 type Board = ({ type: PieceSymbol, team: Color, uid: string, value: number } | null)[][];
@@ -25,7 +26,7 @@ type StockValues = {
   
 const stockValues: StockValues = {};
 
-
+let hasMoved = false; // Flag to determine if a piece has moved
 
 let updateToggle = false; // Toggle to determine whether to update or reuse value
 const pieceValueCache: Record<string, number> = {}; // Cache to store piece values by their UID
@@ -260,6 +261,10 @@ type InternalChessAction = {
 export const chessReducer = (state: ChessState, action: ChessAction | InternalChessAction): ChessState => {
     switch (action.type) {
         case 'move': {
+            if (!CanStart()){
+                alert("dupcia it means ass in polish")
+                return state;
+            }
             state = chessReducer(state, {
                 type: 'checkTimers',
                 chess: action.chess,
@@ -498,8 +503,10 @@ export const chessReducer = (state: ChessState, action: ChessAction | InternalCh
         }
         case 'endMove': {
             // update timers
+
             let { w, b } = state.timers;
             if (action.chess.turn() === 'b') {
+                hasMoved = true;
                 b.set = action.time;
                 if (w.set) {
                     const elapsed = (b.set - w.set) / 1000;
@@ -536,7 +543,9 @@ export const chessReducer = (state: ChessState, action: ChessAction | InternalCh
     
     return state;
 };
-
+export const HasMoved = (): boolean => {
+    return hasMoved;
+};
 /*
  * structure of lobby data in firebase
  */
