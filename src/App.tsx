@@ -24,12 +24,17 @@ const Container = styled.div`
   
   background: ${props => props.theme.colors.background};
 
-  // min-height: 100vh; /* Full viewport height */
-  // position: fixed;
-  // top: 50%;
-  // left: 50%;
-  // transform: translate(-50%, -50%);
+  // Scale down to 70%
+  transform: scale(0.8);
+  transform-origin: top center; // Adjust as needed to change the pivot point of the scaling
+
+  // Center the content horizontally after scaling
+  width: 125%; // Increase width to fill the space left by scaling (may need adjustment)
+  margin-left: auto;
+  margin-right: auto;
 `;
+
+// Other styles remain the same
 
 
 

@@ -9,23 +9,23 @@ export const LightTheme: DefaultTheme = {
   },
   menus: {
     controls: {
-      background: '#bbb',
+      background: '#bbbb', // Light Blue
       button: '#fff',
       button_hover: '#f9f9f9',
     },
     players: {
-      background: '#ddd'
+      background: '#f0f8ff', // Alice Blue
     },
     moves: {
-      background: '',
+      background: '', // You can update these colors as needed
       white: '',
       black: '',
       hover: ''
     }
   },
   chess: {
-    board_light: '#e3c06f',
-    board_dark: '#b88a4a',
+    board_light: '#0000', // Light Blue
+    board_dark: '#8FAADC', // Sky Blue
     board_text: '#fff',
     move: '',
     move_castle: '',
@@ -57,8 +57,8 @@ export const DarkTheme: DefaultTheme = {
     }
   },
   chess: {
-    board_light: '#e3c06f',
-    board_dark: '#b88a4a',
+    board_light: '#add8e6', // Light Blue
+    board_dark: '#87cefa', // Sky Blue
     board_text: '#fff',
     move: '',
     move_castle: '',

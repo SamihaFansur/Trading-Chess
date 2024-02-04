@@ -37,8 +37,8 @@ const GameContainer = styled.div<{ fullscreen: boolean }>`
   ${props => props.fullscreen && 'max-width: 1400px;'};
   display: grid;
   background: ${props => props.theme.colors.grid};
-  grid-template-columns: 20% 50% 20%;
-  grid-template-rows: 150px 150px 150px; // Include header height as the first row
+  grid-template-columns: 350px 50% 300px;
+  grid-template-rows: 150px 150px 300px; // Include header height as the first row
   grid-template-areas:
     "header header header"
     "rightSidebar chess controls"
@@ -79,7 +79,6 @@ const RSidebar = styled.div`
   justify-content: start;
   padding: 2%;
   margin-bottom: -36%;
-  background-color: blue; // Example color, adjust as needed
   // More styling...
 `;
 
@@ -91,7 +90,6 @@ const LSidebar = styled.div`
   margin-top: 32%;
   padding: 2%;
   margin-bottom: -70%;
-  background-color: red; // Example color, adjust as needed
   // More styling...
 `;
 
@@ -104,7 +102,7 @@ const PieceImage = styled.img`
 
 const PieceContainer = styled.div`
   display: grid;
-  grid-template-columns: 50px 50px 50px 80px; // Adjusted the width of the columns
+  grid-template-columns: 50px 175px 50px 95px; // Adjusted the width of the columns
   align-items: center;
   gap: 0px;
   width: 100%;
@@ -123,7 +121,7 @@ const StockValue = styled.div`
 `;
 
 const ChartContainer = styled.div`
-  width: 30%; // Adjusted to take full width of its parent container
+  width: 20%; // Adjusted to take full width of its parent container
   height: 50%; // Adjusted for auto height to accommodate the charts' heights
 
   display: flex;

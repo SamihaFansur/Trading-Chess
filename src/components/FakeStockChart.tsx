@@ -27,6 +27,7 @@ export const stockDatasets = [
     borderColor: 'rgb(255, 99, 132)',
     tension: 0.1,
     borderWidth: 2,
+    volatility: 0.2, // Example volatility
   },
   // Microsoft Corporation (MSFT)
   {
@@ -35,6 +36,7 @@ export const stockDatasets = [
     borderColor: 'rgb(54, 162, 235)',
     tension: 0.1,
     borderWidth: 3,
+    volatility: 0.05, // Example volatility
   },
   // Procter & Gamble Co. (PG)
   {
@@ -43,6 +45,7 @@ export const stockDatasets = [
     borderColor: 'rgb(75, 192, 192)',
     tension: 0.1,
     borderWidth: 2,
+    volatility: 0.15, // Example volatility
   },
   // Tesla Inc. (TSLA)
   {
@@ -51,6 +54,7 @@ export const stockDatasets = [
     borderColor: 'rgb(255, 159, 64)',
     tension: 0.1,
     borderWidth: 2,
+    volatility: 0.7, // Example volatility
   },
   // Amazon.com Inc. (AMZN)
   {
@@ -59,6 +63,7 @@ export const stockDatasets = [
     borderColor: 'rgb(153, 102, 255)',
     tension: 0.1,
     borderWidth: 3,
+    volatility: 0.6, // Example volatility
   },
 ];
 
@@ -91,9 +96,18 @@ export interface FakeStockChartProps {
 
 export const FakeStockChart = ({ stockSymbol }: FakeStockChartProps) => {
   const updateInterval = 1000;
+  const movingAveragePeriod = 2; // Define the period for the moving average
 
   // Find the dataset for the given stockSymbol
   const stockDataset = stockDatasets.find(dataset => dataset.label.includes(stockSymbol)) || stockDatasets[0];
+  
+  // Function to calculate the moving average
+  const movingAverage = (data, period) => {
+    return data.map((val, index, arr) => {
+      if (index < period - 1) return val;
+      return arr.slice(index - period + 1, index + 1).reduce((a, b) => a + b, 0) / period;
+    });
+  };
 
   // Initialize chartData state with the dataset for the stockSymbol
   const [chartData, setChartData] = useState({
@@ -109,18 +123,23 @@ export const FakeStockChart = ({ stockSymbol }: FakeStockChartProps) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // Generate new data point
-      const newDataPoint = Math.floor(Math.random() * 1000);
+      // Get the last data point (current price)
+      const currentPrice = chartData.datasets[0].data.slice(-1)[0];
+      
+      // Simulate price change with volatility
+      const change = currentPrice * stockDataset.volatility * (Math.random() > 0.5 ? 1 : -1);
+      const newDataPoint = Math.max(1, currentPrice + change); // Ensure the price doesn't go below 1
+      
+      // Smooth the data using moving average
+      const smoothedData = movingAverage([...chartData.datasets[0].data, newDataPoint], movingAveragePeriod);
+      smoothedData.shift(); // Remove the first element to maintain data length
+      
       const newLabel = `${chartData.labels.length + 1}`;
-
-      // Update only the dataset for this stock
-      const newData = [...chartData.datasets[0].data, newDataPoint];
-      newData.shift(); // Remove the first element
 
       // Update state
       setChartData({
         labels: [...chartData.labels.slice(1), newLabel], // Remove the first label and add a new one
-        datasets: [{ ...chartData.datasets[0], data: newData }],
+        datasets: [{ ...chartData.datasets[0], data: smoothedData }],
       });
     }, updateInterval);
 
@@ -134,5 +153,3 @@ export const FakeStockChart = ({ stockSymbol }: FakeStockChartProps) => {
 
   return <Line data={chartData} options={options} />;
 };
-
-export default StockDashboard;
