@@ -6,14 +6,11 @@ import { Footer } from './components/Footer';
 import { Chess } from './components/Chess';
 import { Settings } from './components/Settings';
 import { Home } from './components/Home';
-import { Lobby } from './components/Lobby';
 import { SettingsProvider } from './providers/SettingsProvider';
 import { ThemeProvider } from './providers/ThemeProvider';
 import { GlobalStyles } from './theme/global';
 import { ChessProvider } from './providers/ChessProvider';
 import { LobbyProvider } from './providers/LobbyProvider';
-import TradingViewWidget from './components/TradingViewWidget';
-
 
 const Container = styled.div`
   max-width: 1000px;
@@ -33,7 +30,7 @@ function App(): JSX.Element {
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   const onClickSettings = () => setSettingsOpen(v => !v);
-  
+
   return (
     <SettingsProvider>
       <ThemeProvider>
@@ -63,19 +60,6 @@ function App(): JSX.Element {
                   <Chess type="local" />
                 </ChessProvider>
               } />
-<<<<<<< Updated upstream
-=======
-              <Route path="/lobby/:id" element={
-                <LobbyProvider>
-                  <Lobby />
-                </LobbyProvider>
-              } />
-              <Route path="/lobby" element={
-                <LobbyProvider>
-                  <Lobby />
-                </LobbyProvider>
-              } />
->>>>>>> Stashed changes
             </Routes>
             <Footer />
             {
@@ -86,6 +70,6 @@ function App(): JSX.Element {
       </ThemeProvider>
     </SettingsProvider>
   );
-};
+}
 
 export default App;

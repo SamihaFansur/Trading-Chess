@@ -12,7 +12,7 @@ import { SettingsContext } from '@/providers/SettingsProvider';
 import { LobbyContext } from '@/providers/LobbyProvider';
 import { Color, PieceSymbol, Square } from 'chess.js';
 import { pieceToFilename, pieceToName, pieceToString } from '@/game/piece';
-import FakeStockChart from './FakeStockChart'; // Adjust the path as necessary
+import { FakeStockChart, FakeStockChartProps } from './FakeStockChart'; // Adjust the path as necessary
 
 
 const ChessContainer = styled.div<{ fullscreen: boolean }>`
@@ -112,24 +112,13 @@ const ChartContainer = styled.div`
 `;
 
 const stockOptions = [
-  { code: 'JNJ', label: 'Johnson & Johnson (JNJ) - Healthcare' },
+  { code: 'Default', label: '-' }, // Default option
   { code: 'MSFT', label: 'Microsoft Corporation (MSFT) - Technology' },
   { code: 'PG', label: 'Procter & Gamble Co. (PG) - Consumer Goods' },
   { code: 'TSLA', label: 'Tesla Inc. (TSLA) - Automotive/Electric Vehicles' },
-  { code: 'JPM', label: 'JPMorgan Chase & Co. (JPM) - Financial Services' },
-  { code: 'KO', label: 'Coca-Cola Company (KO) - Beverages' },
-  { code: 'XOM', label: 'Exxon Mobil Corporation (XOM) - Energy' },
   { code: 'AMZN', label: 'Amazon.com Inc. (AMZN) - E-commerce/Technology' },
-  { code: 'DIS', label: 'Walt Disney Co. (DIS) - Entertainment' },
-  { code: 'GOOGL', label: 'Alphabet Inc. (GOOGL) - Internet/Search Engine' },
-  { code: 'SQ', label: 'Square, Inc. (SQ) - Financial Technology (FinTech)' },
-  { code: 'ZM', label: 'Zoom Video Communications, Inc. (ZM) - Communication Technology' },
-  { code: 'MRNA', label: 'Moderna, Inc. (MRNA) - Biotechnology' },
-  { code: 'ETSY', label: 'Etsy, Inc. (ETSY) - E-commerce/Crafts' },
-  { code: 'PLTR', label: 'Palantir Technologies Inc. (PLTR) - Data Analytics' },
-  { code: 'LMND', label: 'Lemonade, Inc. (LMND) - Insurtech' },
+  { code: 'AAPL', label: 'Apple Inc. (AAPL) - Technology/Electronics' }
 ];
-
 
 
 const Select = styled.select`
@@ -155,6 +144,7 @@ const pieceOrder = {
   n: 4, // Knight
   p: 5, // Pawn
 };
+
 
 export const LeftSidebar = () => {
   const { state } = useChessContext(); // Access the chess state
@@ -290,12 +280,10 @@ export const Chess: React.FC<ChessProps> = ({ type }) => {
             <ChartContainer>
               <FakeStockChart stockSymbol="MSFT" />
               <FakeStockChart stockSymbol="AAPL" /> {/* Example for another stock */}
-              <FakeStockChart stockSymbol="MSFT" />
-              <FakeStockChart stockSymbol="AAPL" /> {/* Example for another stock */}
-              <FakeStockChart stockSymbol="MSFT" />
-              <FakeStockChart stockSymbol="AAPL" /> {/* Example for another stock */}
-              <FakeStockChart stockSymbol="MSFT" />
-              <FakeStockChart stockSymbol="AAPL" /> {/* Example for another stock */}
+              <FakeStockChart stockSymbol="PG" />
+              <FakeStockChart stockSymbol="TSLA" />
+              <FakeStockChart stockSymbol="AMZN" />
+
               {/* Add more FakeStockChart components as needed */}
             </ChartContainer>
           </Header>

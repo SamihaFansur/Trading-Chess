@@ -16,9 +16,8 @@ const MoveContainer = styled.div`
 `;
 
 
-
 const MoveItem = styled.p`
-  padding: 5px 10px;
+  padding: 0px 10px;
   margin: 0px;
   color: ${props => props.theme.colors.text};
 `;

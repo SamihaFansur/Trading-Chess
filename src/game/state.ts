@@ -1,4 +1,5 @@
 import { Chess, Color, Move, PieceSymbol, Square } from "chess.js";
+import { stockDatasets } from "@/components/FakeStockChart";
 
 /* helpers */
 type Board = ({ type: PieceSymbol, team: Color, uid: string, value: number } | null)[][];
@@ -18,6 +19,11 @@ const variation = baseValue;
 return baseValue + Math.random() * variation * 2 - variation;
 };
 
+type StockValues = {
+    [key: string]: number;
+  };
+  
+const stockValues: StockValues = {};
 
 
 
@@ -79,6 +85,33 @@ const getBoard = (chess: Chess, pieceUids: Record<string, string>): Board => {
     );
 };
 
+const fetchCurrentStockValues = async (): Promise<StockValues> => {
+    // Simulate fetching data with a small delay to mimic an API call
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    // Simulate stock value changes
+    stockDatasets.forEach(stock => {
+        // Generate a random change percentage between -5% and 5%
+        const changePercentage = (Math.random() * 10 - 5) / 100;
+        // Apply the change to the last data point
+        const lastValueIndex = stock.data.length - 1;
+        const lastValue = parseFloat(stock.data[lastValueIndex]);
+        stock.data[lastValueIndex] = (lastValue + lastValue * changePercentage).toFixed(2);
+    });
+
+    // Create an object to hold the most recent value of each stock
+    const stockValues: StockValues = {};
+
+    // Iterate over the stockDatasets and get the last value from the data array
+    stockDatasets.forEach(stock => {
+        // The label of the stock dataset will be the key, and the last data point will be the value
+        const stockLabel = stock.label.split(' - ')[0]; // Extract the stock symbol from the label
+        const stockValue = stock.data[stock.data.length - 1]; // Get the last value from the data array
+        stockValues[stockLabel] = parseFloat(stockValue);
+    });
+
+    return stockValues;
+};
 
 
 export enum CompleteFlag {
@@ -146,6 +179,8 @@ export interface ChessState extends CommonState {
     pieceUidTracker: MoveUID[];
     paused: boolean;
     players: Players;
+    stockValueSnapshot: Record<string, number>; // Add this line
+
 };
 
 export const createChessState = (length: number, players: Players): ChessState => {
@@ -183,6 +218,7 @@ export const createChessState = (length: number, players: Players): ChessState =
         pieceUidTracker: [],
         paused: false,
         players,
+        stockValueSnapshot: {}, // Initialize it here
     };
 };
 
@@ -293,6 +329,20 @@ export const chessReducer = (state: ChessState, action: ChessAction | InternalCh
                 if (move.captured) {
                     state.captured[move.color] = [...state.captured[move.color], move.captured];
                 }
+
+                fetchCurrentStockValues().then(stockValues => {
+                    // Update the stockValueSnapshot in the state with the fetched stock values
+                    state = {
+                        ...state,
+                        stockValueSnapshot: stockValues
+                    };
+                     // Log the fetched stock values
+                    console.log('Fetched stock values after move:', stockValues);
+                }).catch(error => {
+                    console.error("Error fetching stock values: ", error);
+                });
+
+
                 // Refresh the board state to reflect any changes
                 state.board = getBoard(action.chess, state.pieceUids);
 
