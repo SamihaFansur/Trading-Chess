@@ -138,7 +138,7 @@ const stockOptions = [
   { code: 'PG', label: 'Procter & Gamble Co. (PG) - Consumer Goods' },
   { code: 'TSLA', label: 'Tesla Inc. (TSLA) - Automotive/Electric Vehicles' },
   { code: 'AMZN', label: 'Amazon.com Inc. (AMZN) - E-commerce/Technology' },
-  { code: 'AAPL', label: 'Apple Inc. (AAPL) - Technology/Electronics' }
+  { code: 'JNJ', label: 'Johnson and Johnson (JNJ) - Healthcare' }
 ];
 
 
