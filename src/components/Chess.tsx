@@ -291,8 +291,40 @@ export const Chess: React.FC<ChessProps> = ({ type }) => {
       navigate('/');
   };
 
+  const TutorialCanvas = ({ onClose }) => {
+    return (
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+        zIndex: 9999,
+      }}>
+        <button onClick={onClose} style={{
+          position: 'absolute',
+          top: 10,
+          right: 10,
+          fontSize: '2em',
+          backgroundColor: 'transparent',
+          border: 'none',
+          cursor: 'pointer',
+        }}>
+          X
+        </button>
+        <p style={{ fontSize: '2em' }}>This is some tutorial text.</p>
+      </div>
+    );
+  };
+  
   return (
     <Fullscreen isFullscreen={fullscreen}>
+      <TutorialCanvas onClose={() => {}} />
       <ChessContainer fullscreen={fullscreen}>
         <GameContainer fullscreen={fullscreen}>
           <Header>
