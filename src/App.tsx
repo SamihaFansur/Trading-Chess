@@ -40,6 +40,12 @@ function App(): JSX.Element {
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   const onClickSettings = () => setSettingsOpen(v => !v);
+  const ParentContainer = styled.div`
+  display: flex;
+  justify-content: center; // Center children horizontally
+  align-items: center; // Center children vertically
+  height: 100vh; // Make the container fill the full viewport height
+`;
 
   return (
     <SettingsProvider>
