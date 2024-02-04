@@ -255,12 +255,17 @@ interface ChessProps {
 
 
 export const Chess: React.FC<ChessProps> = ({ type }) => {
+  const [showTutorial, setShowTutorial] = useState(true); // State to manage the visibility of the tutorial
   const [fullscreen, setIsFullscreen] = useState(false);
   const { hasLoaded } = useContext(SettingsContext);
   const { id } = useParams();
   const { StartNewGame } = useChessContext();
   const navigate = useNavigate();
   const lobby = useContext(LobbyContext);
+
+  const onClose = () => {
+    setShowTutorial(false); // This should close the tutorial
+  };
 
   useEffect(() => {
     if (!hasLoaded) {
@@ -292,8 +297,11 @@ export const Chess: React.FC<ChessProps> = ({ type }) => {
   const TutorialCanvas = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const onClose = () => {
-      document.getElementById('tutorialCanvas')?.remove();
+      console.log('Closing tutorial...');
+      setShowTutorial(false); // Hide the tutorial when closed
+      console.log('Tutorial should be closed. Current state:', showTutorial);
     };
+    
   
     const handleBackwards = () => {
       if (currentPage > 1) {
@@ -303,9 +311,10 @@ export const Chess: React.FC<ChessProps> = ({ type }) => {
   
     const handleForward = () => {
       setCurrentPage(currentPage + 1);
-      
     };
-    
+  
+
+  
     
     return (
       <div id="tutorialCanvas" style={{
@@ -415,7 +424,8 @@ export const Chess: React.FC<ChessProps> = ({ type }) => {
   
   return (
     <Fullscreen isFullscreen={fullscreen}>
-      <TutorialCanvas/>
+      {showTutorial && <TutorialCanvas onClose={onClose} />}
+
       <ChessContainer fullscreen={fullscreen}>
         <GameContainer fullscreen={fullscreen}>
           <Header>
