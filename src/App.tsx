@@ -19,17 +19,16 @@ const Container = styled.div`
   padding: 0 10px;
   display: flex;
   flex-direction: column;
-
-  // min-height: 100vh; /* Full viewport height */
   width: 100%;
   justify-content: flex-start;
   
   background: ${props => props.theme.colors.background};
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  
-  transform: translate(-50%, -50%);
+
+  // min-height: 100vh; /* Full viewport height */
+  // position: fixed;
+  // top: 50%;
+  // left: 50%;
+  // transform: translate(-50%, -50%);
 `;
 
 

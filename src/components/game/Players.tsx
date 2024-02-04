@@ -12,6 +12,9 @@ const PlayersContainer = styled.div`
   flex-direction: column;
   justify-content: space-around;
   background: ${props => props.theme.menus.players.background};
+  
+  background-color: yellow;
+  border: 2px solid black;
 `;
 
 const PlayerContainer = styled.div`
@@ -23,6 +26,9 @@ const PlayerContainer = styled.div`
     "icon name turn"
     "icon details turn"
     "pieces pieces turn";
+  
+  background-color: purple;
+
 `;
 const PlayerIcon = styled.span`
   font-size: 30px;
