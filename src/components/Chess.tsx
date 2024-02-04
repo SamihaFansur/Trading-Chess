@@ -309,11 +309,14 @@ export const Chess: React.FC<ChessProps> = ({ type }) => {
     
     return (
       <div id="tutorialCanvas" style={{
-        position: 'fixed',
+        position: 'absolute',
         top: 0,
         left: 0,
-        width: '100vw',
-        height: '100vh',
+        // width: '100vw',
+        // height: '100vh',
+        width: '99.2%',
+        height: '100%',
+        margin:0,
         backgroundColor: 'rgba(255, 255, 255, 0.93)',
         display: 'flex',
         justifyContent: 'center',
@@ -353,7 +356,7 @@ export const Chess: React.FC<ChessProps> = ({ type }) => {
         {currentPage === 3 && (
           <>
             <h1 style={{ fontSize: '2em' }}>Movement:</h1>
-            <p style={{ textAlign: 'left' }}>- Pieces move based on their standard chess movement patterns (pawn, rook, knight, bishop, queen, king).</p>
+            <p style={{ textAlign: 'left' }}> - Pieces move based on their standard chess movement patterns (pawn, rook, knight, bishop, queen, king).</p>
             <p style={{ textAlign: 'left' }}> - Crucially, a piece with a lower stock price cannot capture a pawn with a higher value.</p>
             <p style={{ textAlign: 'left' }}> - You can choose to prioritize speed (move immediately) or wait for a price update before moving a piece. Price updates may reveal valuable information to inform your decisions.</p>
           </>
@@ -412,7 +415,7 @@ export const Chess: React.FC<ChessProps> = ({ type }) => {
   
   return (
     <Fullscreen isFullscreen={fullscreen}>
-      <TutorialCanvas onClose={() => {}} />
+      <TutorialCanvas/>
       <ChessContainer fullscreen={fullscreen}>
         <GameContainer fullscreen={fullscreen}>
           <Header>
