@@ -9,13 +9,11 @@ const MoveContainer = styled.div`
   grid-area: moves;
   overflow-y: auto;
   background-color: ${props => props.theme.menus.moves.background};
-  max-height: min(calc(100vw - 550px), calc(1000px - 530px)); // Adjusted values to reduce height
+  max-height: min(calc(100vw - 450px), calc(1000px - 430px));
   @media (max-width: 800px) {
     max-height: none;
   }
 `;
-
-
 
 const MoveItem = styled.p`
   padding: 5px 10px;

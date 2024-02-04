@@ -7,14 +7,11 @@ import { Error } from '../../util/Error';
 
 const ControlsContainer = styled.div`
   display: flex;
-  flex-direction: rows; /* Stack buttons vertically */
   align-items: center;
   justify-content: space-evenly;
   background: ${props => props.theme.menus.controls.background};
   user-select: none;
-  height: 50px; /* Maximize the height of the container */
 `;
-
 
 const ControlsButton = styled(FontAwesomeIcon)`
   background: ${props => props.theme.menus.controls.button};
