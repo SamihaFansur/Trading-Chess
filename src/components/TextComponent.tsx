@@ -35,7 +35,7 @@ const TextComponent: React.FC = () => {
         .then(data => console.log(data));
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap', paddingBottom: '200px'}}>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap'}}>
     {companies.map((company, index) => (
       <div key={index} style={{ margin: '10px 10px 20px 10px', width: '200px', display: 'flex', flexDirection: 'column' }}>
         <Button 
