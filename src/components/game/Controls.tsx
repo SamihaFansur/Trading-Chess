@@ -11,6 +11,7 @@ const ControlsContainer = styled.div`
   justify-content: space-evenly;
   background: ${props => props.theme.menus.controls.background};
   user-select: none;
+  background-color:green;
 `;
 
 const ControlsButton = styled(FontAwesomeIcon)`

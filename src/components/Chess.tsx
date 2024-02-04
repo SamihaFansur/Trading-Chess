@@ -37,13 +37,15 @@ const GameContainer = styled.div<{ fullscreen: boolean }>`
   ${props => props.fullscreen && 'max-width: 1400px;'};
   display: grid;
   background: ${props => props.theme.colors.grid};
-  grid-template-columns: 210px 50% 250px;
-  grid-template-rows: 150px 220px 50% 150px; // Include header height as the first row
+  grid-template-columns: 20% 50% 20%;
+  grid-template-rows: 150px 150px 150px; // Include header height as the first row
   grid-template-areas:
     "header header header"
-    "leftSidebar chess controls"
+    "rightSidebar chess controls"
     "leftSidebar chess players"
-    "rightSidebar chess moves";
+    ". chess moves";
+
+
 
   @media (max-width: 1200px) {
     // Adjustments for medium screens
@@ -70,13 +72,26 @@ const BoardContainer = styled.div`
   aspect-ratio: 1;
 `;
 
-const Sidebar = styled.div`
+const RSidebar = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: start;
-  padding: 0px;
-  background-color: #f9f9f9; // Example color, adjust as needed
+  padding: 2%;
+  margin-bottom: -36%;
+  background-color: blue; // Example color, adjust as needed
+  // More styling...
+`;
+
+const LSidebar = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  margin-top: 32%;
+  padding: 2%;
+  margin-bottom: -70%;
+  background-color: red; // Example color, adjust as needed
   // More styling...
 `;
 
@@ -170,7 +185,7 @@ export const LeftSidebar = () => {
   const sortedWhitePieces = uniqueWhitePieces.sort((a, b) => pieceOrder[a.type] - pieceOrder[b.type]);
 
   return (
-      <Sidebar>
+      <LSidebar>
           {sortedWhitePieces.map((piece, index) => (
               <PieceContainer key={index}>
                   <PieceImage src={pieceToFilename(piece.type, true)} alt={pieceToName(piece.type)} />
@@ -183,7 +198,7 @@ export const LeftSidebar = () => {
                   <span>{piece.value.toFixed(2)}</span>
               </PieceContainer>
           ))}
-      </Sidebar>
+      </LSidebar>
   );
 };
 
@@ -215,7 +230,7 @@ export const RightSidebar = () => {
     // You can add more code here to handle the selected option
   };
   return (
-      <Sidebar>
+      <RSidebar>
           {sortedBlackPieces.map((piece, index) => (
               <PieceContainer key={index}>
                   <PieceImage src={pieceToFilename(piece.type, false)} alt={pieceToName(piece.type)} />
@@ -228,31 +243,16 @@ export const RightSidebar = () => {
                   <span>{piece.value.toFixed(2)}</span>
               </PieceContainer>
           ))}
-      </Sidebar>
+      </RSidebar>
   );
 };
 
-export const DummySidebar = () => {
-  return (
-    <Sidebar>
-      <PieceContainer>
-        <span></span>
-      </PieceContainer>
-      <PieceContainer>
-        <span></span>
-      </PieceContainer>
-      <PieceContainer>
-        <span></span>
-      </PieceContainer>
-      {/* Add more pieces as needed */}
-    </Sidebar>
-  );
-};
+
 
 
 
 interface ChessProps {
-  type: 'local' | 'bot' | 'online'
+  type: 'local' | 'bot' 
 }
 
 

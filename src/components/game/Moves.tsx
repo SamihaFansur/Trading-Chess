@@ -13,6 +13,7 @@ const MoveContainer = styled.div`
   @media (max-width: 800px) {
     max-height: none;
   }
+  border: 2px solid black;
 `;
 
 

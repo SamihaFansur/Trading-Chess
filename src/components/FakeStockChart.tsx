@@ -66,7 +66,13 @@ export const stockDatasets = [
 
 const StockDashboard = () => {
   return (
-    <div>
+    <div style={{
+      display: 'flex', // Use flex display
+      flexDirection: 'column', // Stack children vertically
+      justifyContent: 'center', // Center children vertically in the container
+      alignItems: 'center', // Center children horizontally in the container
+      height: '100vh', // Full height of the viewport
+    }}>
       <FakeStockChart stockSymbol="Johnson & Johnson (JNJ) - Healthcare" />
       <FakeStockChart stockSymbol="Microsoft Corporation (MSFT) - Technology" />
       <FakeStockChart stockSymbol="Procter & Gamble Co. (PG) - Consumer Goods" />
