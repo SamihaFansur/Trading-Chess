@@ -79,5 +79,3 @@ Distributed under the **MIT License**. See [LICENSE](LICENSE) for more informati
 
 **Project Link:** [https://github.com/euangoodbrand/ICHack_Chess](https://github.com/euangoodbrand/ICHack_Chess)
 
-Note: Be sure to replace placeholders like Your Name, @your_twitter, and email@example.com with your actual project details.
-
