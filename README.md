@@ -74,8 +74,8 @@ Distributed under the **MIT License**. See [LICENSE](LICENSE) for more informati
 
 **Contact:**
 
-- **Your Name** - [@your_twitter](https://twitter.com/your_twitter)
-- **Email**: email@example.com
+- **Samiha Fansur**
+- **Email**: samiha.fansur.2002@gmail.com
 
 **Project Link:** [https://github.com/euangoodbrand/ICHack_Chess](https://github.com/euangoodbrand/ICHack_Chess)
 
