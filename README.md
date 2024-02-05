@@ -78,4 +78,5 @@ Distributed under the **MIT License**. See [LICENSE](LICENSE) for more informati
 - **Email**: samiha.fansur.2002@gmail.com
 
 **Project Link:** [https://github.com/euangoodbrand/ICHack_Chess](https://github.com/euangoodbrand/ICHack_Chess)
+
 Check out the project story: [https://devpost.com/software/trading-chess](https://devpost.com/software/trading-chess)
